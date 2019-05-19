@@ -14,7 +14,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
+<<<<<<< HEAD
 import javafx.scene.control.*;
+=======
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ListView;
+import javafx.scene.control.Tooltip;
+>>>>>>> parent of 35928ac... Revert "Update MainWindowController.java"
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -152,6 +158,22 @@ public class MainWindowController implements Initializable {
         }
         updateBudget();
 
+        /* Added pie chart on hover percent tooltip */
+
+        //Get total price of all slices
+        double t = 0;
+        for (PieChart.Data d : pieChart.getData()) {
+            t += d.getPieValue();
+        }
+        final double total = t;
+
+        pieChart.getData().forEach(data -> {
+            Tooltip tooltip = new Tooltip();
+            tooltip.setText(String.format("%.1f%%", 100*data.getPieValue()/total));
+            Tooltip.install(data.getNode(), tooltip);
+            data.pieValueProperty().addListener((observable, oldValue, newValue) ->
+                    tooltip.setText(newValue + "%"));
+        });
     }
 
 
