@@ -16,7 +16,6 @@ import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import utills.HTTPMessenger;
@@ -147,22 +146,6 @@ public class MainWindowController implements Initializable {
             }
         }
 
-        /* Added pie chart on hover percent tooltip */
-
-        //Get total price of all slices
-        double t = 0;
-        for (PieChart.Data d : pieChart.getData()) {
-            t += d.getPieValue();
-        }
-        final double total = t;
-
-        pieChart.getData().forEach(data -> {
-            Tooltip tooltip = new Tooltip();
-            tooltip.setText(String.format("%.1f%%", 100*data.getPieValue()/total));
-            Tooltip.install(data.getNode(), tooltip);
-            data.pieValueProperty().addListener((observable, oldValue, newValue) ->
-                    tooltip.setText(newValue + "%"));
-        });
     }
 
 
